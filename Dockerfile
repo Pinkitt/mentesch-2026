@@ -1,28 +1,20 @@
-# Alap PHP-FPM image
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
-WORKDIR /var/www/html
+WORKDIR /app
 
-# Rendszer dependencies telepítése
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    git unzip zip libzip-dev \
+    && docker-php-ext-install zip pdo pdo_mysql
 
-# Composer telepítése
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Projekt másolása a konténerbe
-COPY . /var/www/html
-COPY --chown=www-data:www-data . /var/www/html
+COPY . .
 
-# Port 9000 nyitása
-EXPOSE 9000
+RUN composer install --no-dev --optimize-autoloader
 
-# PHP-FPM indítása
-CMD ["php-fpm"]
+RUN chmod -R 775 storage bootstrap/cache
+
+# NINCS fix EXPOSE PORT!
+# NINCS fix port szám!
+
+CMD php artisan serve --host=0.0.0.0 --port=$PORT
