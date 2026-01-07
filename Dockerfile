@@ -1,19 +1,21 @@
-FROM php:8.2-cli
-
-WORKDIR /app
+FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
-    git unzip zip libzip-dev \
-    && docker-php-ext-install zip pdo pdo_mysql
+    nginx git unzip zip libzip-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www
 
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-RUN chmod -R 775 storage bootstrap/cache
+# Nginx config
+COPY nginx.conf /etc/nginx/sites-available/default
 
-# FONTOS: public mappa kiszolgálása
-CMD php -S 0.0.0.0:$PORT -t public
+EXPOSE 80
 
+CMD service nginx start && php-fpm
