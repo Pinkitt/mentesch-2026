@@ -14,7 +14,5 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN chmod -R 775 storage bootstrap/cache
 
-# NINCS fix EXPOSE PORT!
-# NINCS fix port szám!
-
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# FONTOS: public mappa kiszolgálása
+CMD php -S 0.0.0.0:$PORT -t public
