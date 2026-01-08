@@ -32,10 +32,11 @@
     </div>
   </nav>
 
-  <header class="relative shadow-sm">
+  <header class="relative bg-white shadow-sm">
     <div class="relative inline-block w-full px-4 py-6 sm:px-6 lg:px-8">
+      <img src="bg_leafs.png" class="block w-full object-cover blur-md" />
       <h1 class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                 text-white text-9xl font-bold drop-shadow-lg texto">
+             text-white text-9xl font-bold drop-shadow-lg texto">
         {{$heading}}
       </h1>
     </div>
