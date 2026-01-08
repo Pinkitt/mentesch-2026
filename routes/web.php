@@ -6,14 +6,14 @@ Route::get('/', function () {
     return view('main');
 });
 
-Route::get('/rolunk', function () {
+Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/allergenek', function () {
+Route::get('/allergens', function () {
     return view('allergens');
 });
 
-Route::get('/etteremkereso', function () {
+Route::get('/restaurantsearch', function () {
     return view('restaurantsearch');
 });
